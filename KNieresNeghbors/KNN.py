@@ -50,3 +50,18 @@ answere=predict(xtrain, ytrain, xtest, 5)
 
 print(confusion_matrix(answere, ytest))
 print(classification_report(answere, ytest))
+
+'''
+[[11  0  0]
+ [ 0 10  1]
+ [ 0  2 14]]
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00        11
+           1       0.83      0.91      0.87        11
+           2       0.93      0.88      0.90        16
+
+    accuracy                           0.92        38
+   macro avg       0.92      0.93      0.92        38
+weighted avg       0.92      0.92      0.92        38
+'''
