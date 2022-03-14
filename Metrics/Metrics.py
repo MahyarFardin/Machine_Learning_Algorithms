@@ -1,5 +1,8 @@
-def confusion_matrix(prediction, ytest):
-    matrix=[]
+from matplotlib.pyplot import axis
+import numpy as np
+
+def confusion_matrix(prediction, ytest, type):
+    
     n=0
     dim=[]
 
@@ -8,24 +11,38 @@ def confusion_matrix(prediction, ytest):
             n += 1
             dim.append(i)
 
+    matrix=np.zeros((len(dim), len(dim)))
 
-    for i in range(len(dim)):
-        matrix.append([])
-
-        for j in range(len(dim)):
-            matrix[n].append([])
-        
-        n += 1
-
-    for i in prediction:
-        matrix[prediction[i]][ytest[i]] += 1
+    for i in range(len(ytest)):
+        matrix[prediction[i]-1][ytest[i]-1] += 1
     
-    return matrix
+    if type==0:
+        return matrix
+    else:
+        return matrix, dim
 
 
-#def classification_report():
+def classification_report(prediction, ytest):
+    matrix, dim=confusion_matrix(prediction, ytest, 1)
+    vert_sum=np.sum(matrix, axis=0)
+    hor_sum=np.sum(matrix, axis=1)
+
+    print(matrix)
+
+    print("\tprecision  recall  f1-score  support\n")
+    
+    for i in dim:
+        
+        print(" "+str(i)+"\t"+str(round(matrix[i-1][i-1]/hor_sum[i-1], 2))+"\t"+
+        str(round(matrix[i-1][i-1]/vert_sum[i-1], 2))+"\t"+"Temp"+"\t"+str(np.sum(hor_sum[i-1])))
+
+    diagonal_sum = [matrix[x][x] for x in range(len(matrix))]
+    diagonal_sum = sum(diagonal_sum)
+
+    print()
+    print("accuracy: "+18*" "+str(round(diagonal_sum/np.sum(matrix), 2)))
 #def mean_squarred_error:
 
-x=[1,1,2,3,4,4,5]
-y=[1,2,2,3,3,5,5]
-print(confusion_matrix(x, y))
+x=[1,1,2,3,3,1,4]
+y=[1,2,2,3,3,4,4]
+print(classification_report(x, y))
