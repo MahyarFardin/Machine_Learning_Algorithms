@@ -1,10 +1,9 @@
 import numpy as np
 
 #below pakages are for test
-from sklearn import datasets
+from sklearn.datasets import load_diabetes
 from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
 import matplotlib.pyplot as plt
 
 # model
@@ -40,7 +39,7 @@ class Linear_Regression:
 
 
 # test
-x, y= datasets.make_regression(n_samples=200, n_features=1)
+x, y = load_diabetes(return_X_y=True)
 xtrain , xtest, ytrain, ytest= train_test_split(x, y)
 
 # my model
@@ -49,16 +48,11 @@ lr.fit(xtrain, ytrain)
 prediction_of_me=lr.predict(xtest)
 print(mean_squared_error(prediction_of_me, ytest))
 
-# sklearn model
-lr2=LinearRegression()
-lr2.fit(xtrain, ytrain)
-prediction_of_sklearn_lr=lr2.predict(xtest)
-print(mean_squared_error(prediction_of_sklearn_lr, ytest))
+print(str(len(xtrain))+" "+str(len(xtest)))
 
 plt.scatter(xtrain, ytrain, c="green")
 plt.scatter(xtest, ytest, c="blue")
 plt.plot(xtest, prediction_of_me, c="black")
-plt.plot(xtest, prediction_of_sklearn_lr, c="red")
 plt.legend(["train","test","my_pred","sklearn_pred"])
 plt.savefig("result.jpg")
 
